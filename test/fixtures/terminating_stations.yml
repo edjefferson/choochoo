@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  basic_schedule_id: 1
+
+two:
+  basic_schedule_id: 1
