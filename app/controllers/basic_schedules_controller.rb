@@ -1,0 +1,2 @@
+class BasicSchedulesController < ApplicationController
+end

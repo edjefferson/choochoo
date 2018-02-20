@@ -1,0 +1,2 @@
+module BasicSchedulesHelper
+end
