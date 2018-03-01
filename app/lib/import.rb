@@ -12,13 +12,14 @@ class Import
 
   def start_import
     puts "importing #{self.filename}"
-    puts "truncating tables"
-    truncate_tables
+
     puts "emptying CSVs"
     empty_csvs
 
     process_file(self.filename)
     export_to_csv(-1)
+    puts "truncating tables"
+    truncate_tables
     import_from_csv_to_db
     puts "IMPORT COMPLETE"
   end

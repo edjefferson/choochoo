@@ -2,6 +2,7 @@ require 'active_record'
 require './app/lib/import.rb'
 require 'csv'
 
+
 ActiveRecord::Base.establish_connection(
   :adapter  => "postgresql",
   :host     => "localhost",
@@ -32,9 +33,13 @@ end
 class ChangeEnRoute < ActiveRecord::Base
 end
 
+class BasicScheduleSequence < ActiveRecord::Base
+end
+
 def run_import_sequence(filename)
   import = Import.new(filename, "ChooChoo_development")
   import.start_import
+  BasicScheduleSequence.collect_sequences
 end
 
  run_import_sequence("ttis828/ttisf828.mca")
