@@ -1,22 +1,24 @@
 class Import
-  attr_accessor :filename, :basic_schedule_id, :intermediate_station_id, :data_for_import
+  attr_accessor :filename, :basic_schedule_id, :intermediate_station_id, :data_for_import, :database
 
-  def initialize(filename)
+  def initialize(filename, database)
+    @database = database
     @filename = filename
     @basic_schedule_id = 0
     @intermediate_station_id = 0
     empty_data_for_import
   end
 
+
   def start_import
     puts "importing #{self.filename}"
     puts "truncating tables"
     truncate_tables
     puts "emptying CSVs"
-    empty_csvs
+    #empty_csvs
 
-    process_file(self.filename)
-    export_to_csv(-1)
+    #process_file(self.filename)
+    #export_to_csv(-1)
     import_from_csv_to_db
     puts "IMPORT COMPLETE"
   end
@@ -305,9 +307,9 @@ class Import
     tables.each do |table|
       #if table.table_name == "basic_schedules" || table.table_name == "intermediate_stations"
       #  puts table.column_names
-      #  system "psql -d train_stations -c \"\\copy #{table.table_name} (#{(table.column_names).join(", ")}) from \'csv/#{table.table_name}.csv\' csv\""
+      #  system "psql -d #{self.database} -c \"\\copy #{table.table_name} (#{(table.column_names).join(", ")}) from \'csv/#{table.table_name}.csv\' csv\""
       #else
-        system "psql -d train_stations -c \"\\copy #{table.table_name} (#{(table.column_names - ['id']).join(", ")}) from \'csv/#{table.table_name}.csv\' csv\""
+        system "psql -d #{self.database} -c \"\\copy #{table.table_name} (#{(table.column_names - ['id']).join(", ")}) from \'csv/#{table.table_name}.csv\' csv\""
       #end
     end
   end

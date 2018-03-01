@@ -33,7 +33,7 @@ class ChangeEnRoute < ActiveRecord::Base
 end
 
 def run_import_sequence(filename)
-  import = Import.new(filename)
+  import = Import.new(filename, "ChooChoo_development")
   import.start_import
 end
 
