@@ -15,10 +15,10 @@ class Import
     puts "truncating tables"
     truncate_tables
     puts "emptying CSVs"
-    #empty_csvs
+    empty_csvs
 
-    #process_file(self.filename)
-    #export_to_csv(-1)
+    process_file(self.filename)
+    export_to_csv(-1)
     import_from_csv_to_db
     puts "IMPORT COMPLETE"
   end
@@ -140,8 +140,8 @@ class Import
   end
 
   def basic_schedule(line_array)
-    self.basic_schedule_id += 1
     nil_strip_add_dates({
+      id: self.basic_schedule_id += 1,
       transaction_type: line_array.shift(1).join,
       train_uid: line_array.shift(6).join,
       date_runs_from: line_array.shift(6).join,
@@ -199,8 +199,8 @@ class Import
   end
 
   def intermediate_station(line_array)
-    self.intermediate_station_id += 1
     nil_strip_add_dates({
+      id: self.intermediate_station_id += 1,
       basic_schedule_id: self.basic_schedule_id,
       tiploc_insert_id: nil,
       location: line_array.shift(8).join,
@@ -301,16 +301,13 @@ class Import
   end
 
   def import_from_csv_to_db
-    #table = "basic_schedules"
-    #system "psql -d train_stations -c \"\\copy #{table} from \'csv/#{table}.csv\' csv\""
     puts "importing CSVs to database"
     tables.each do |table|
-      #if table.table_name == "basic_schedules" || table.table_name == "intermediate_stations"
-      #  puts table.column_names
-      #  system "psql -d #{self.database} -c \"\\copy #{table.table_name} (#{(table.column_names).join(", ")}) from \'csv/#{table.table_name}.csv\' csv\""
-      #else
+      if table.table_name == "basic_schedules" || table.table_name == "intermediate_stations"
+        system "psql -d #{self.database} -c \"\\copy #{table.table_name} (#{(table.column_names).join(", ")}) from \'csv/#{table.table_name}.csv\' csv\""
+      else
         system "psql -d #{self.database} -c \"\\copy #{table.table_name} (#{(table.column_names - ['id']).join(", ")}) from \'csv/#{table.table_name}.csv\' csv\""
-      #end
+      end
     end
   end
 end
