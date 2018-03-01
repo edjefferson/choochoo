@@ -1,0 +1,2 @@
+class BasicScheduleExtraDetail < ApplicationRecord
+end

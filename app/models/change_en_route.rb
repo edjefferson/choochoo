@@ -1,0 +1,2 @@
+class ChangeEnRoute < ApplicationRecord
+end

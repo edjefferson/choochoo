@@ -65,4 +65,20 @@ class BasicScheduleSequence < ApplicationRecord
       tiploc_sequences.each {|tiploc_sequence| csv << tiploc_sequence.values}
     end
   end
+
+  def calculate_journey_length
+    departure_time = self.origin_station.public_departure_time
+    arrival_time = self.terminating_station.public_arrival_time
+    diff = (arrival_time - departure_time)/60
+    diff += 24*60 if diff < 0
+    self.update(journey_length: diff.to_i)
+  end
+
+  def self.calculate_journey_lengths
+    self.where.not(origin_station_id: nil).order(:id).in_batches do |batch|
+      batch.each(&:calculate_journey_length)
+      sequence = batch[-1]
+      puts "#{sequence.id}: #{sequence.journey_length}"
+    end
+  end
 end

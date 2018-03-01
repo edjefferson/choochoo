@@ -1,0 +1,32 @@
+<h2>Basic Schedule #<%= @basic_schedule.id %></h2>
+<p>This schedule starts at <%= @origin_station %> and finishes at <%= @terminating_station %></p>
+
+<h3>Calling Points:</h3>
+<table>
+  <tr class="begin">
+    <td>
+      <%= @origin_station %>
+    </td>
+    <td>
+      Start
+    </td>
+  </tr>
+  <% for @intermediate_station in @basic_schedule.intermediate_stations %>
+  <tr <% if @intermediate_station.is_stop? %>class="highlight"<% end%> >
+    <td>
+      <%= @intermediate_station.tps_description %>
+    </td>
+    <td>
+      <%= @intermediate_station.activity %>
+    </td>
+  </tr>
+  <% end %>
+  <tr class="end">
+    <td>
+      <%= @terminating_station %>
+    </td>
+    <td>
+      End
+    </td>
+  </tr>
+</table>

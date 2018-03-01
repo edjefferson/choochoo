@@ -1,0 +1,6 @@
+<h2>Basic Schedules #<%= Date.today %></h2>
+<p>There are <%= @basic_schedules_count %> schedules in operation today.</p>
+<p>There are <%= @active_schedules_count %> active schedules in operation today.</p>
+<p>There are <%= @un_cancelled_schedules.length %> un-cancelled schedules in operation today.</p>
+<p>There are <%= @sequences.length %> different sequences in operation today.</p>
+<p><%= @sequences.first.sequence %>
